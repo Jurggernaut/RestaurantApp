@@ -1,0 +1,14 @@
+package Restaurant;
+
+public class Order {
+	int ID;
+	Items[] Itemlist;
+	Packages[] PackageList;
+	
+	Order(int i){
+		ID = i;
+		Itemlist = new Items[10];
+		PackageList = new Packages[5];
+	}
+
+}

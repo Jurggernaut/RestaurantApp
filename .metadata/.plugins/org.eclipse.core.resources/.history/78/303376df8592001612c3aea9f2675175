@@ -1,0 +1,42 @@
+package Restaurant;
+
+public class Items {
+	String Name;
+	String Description;
+	double Price;
+	
+	Items(){
+		Name = " NIL ";
+		Description = " NIL ";
+		Price = 0.0;
+	}
+	
+	Items(String x, double p){
+		Name = x;
+		Description = "NIL";
+		Price = p;
+	}
+	
+	Items(String x, String d, double p){
+		Name = x;
+		Description = d;
+		Price = p;
+	}
+	
+	public void changeDescription(String d){
+		Description = d;
+	}
+	
+	public void changePrice(double p){
+		Price = p;
+	}
+	
+
+	
+	
+	
+	
+	
+	
+	
+}
