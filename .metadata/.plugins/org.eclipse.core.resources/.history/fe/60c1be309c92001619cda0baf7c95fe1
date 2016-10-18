@@ -2,7 +2,6 @@ package Restaurant;
 
 public class Order {
 	int ID;
-	int tableID;
 	Items[] Itemlist;
 	Packages[] Packagelist;
 	Staff StaffinCharge;

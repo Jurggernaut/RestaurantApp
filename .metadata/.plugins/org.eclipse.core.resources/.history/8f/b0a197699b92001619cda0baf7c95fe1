@@ -2,17 +2,14 @@ package Restaurant;
 
 public class Order {
 	int ID;
-	int tableID;
 	Items[] Itemlist;
 	Packages[] Packagelist;
-	Staff StaffinCharge;
 	int i;
 	
-	Order(int id, Staff s){
+	Order(int id){
 		ID = id;
 		Itemlist = new Items[10];
 		Packagelist = new Packages[5];
-		StaffinCharge = s;
 	}
 	
 	public void AddItem(Items it){
@@ -73,8 +70,6 @@ public class Order {
 				return;
 			}
 		}
-		
-		System.out.println("Staff: " + StaffinCharge);
 	}
 	
 	public double calculatePrice(){
