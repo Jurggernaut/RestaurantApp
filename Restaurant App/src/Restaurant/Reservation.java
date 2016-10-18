@@ -8,13 +8,16 @@ public class Reservation {
 	double arrivalTime;
 
 	
-	Reservation(int id, int tid, int ppl, String ap, double time){
+	Reservation(int id, int tid, int ppl, String ampm, double time){
 		ID = id;
 		tableID = tid;
 		noOfPeople = ppl;
-		period = ap;
+		period = ampm;
 		arrivalTime = time;
 	}
+	
+	
+	
 	
 
 }
