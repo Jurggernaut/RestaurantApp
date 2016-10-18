@@ -1,0 +1,7 @@
+package Restaurant;
+
+public class Table {
+	int ID;
+	boolean occupied;
+	int seatingCapacity;
+}
