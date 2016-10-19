@@ -5,10 +5,17 @@ public class Order {
 	int tableID;
 	Items[] Itemlist;
 	Packages[] Packagelist;
-	Staff StaffinCharge;
+	String StaffinCharge;
 	int i;
 	
 	Order(int id, Staff s){
+		ID = id;
+		Itemlist = new Items[10];
+		Packagelist = new Packages[5];
+		StaffinCharge = s.getName();
+	}
+	
+	Order(int id, String s){
 		ID = id;
 		Itemlist = new Items[10];
 		Packagelist = new Packages[5];
