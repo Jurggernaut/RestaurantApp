@@ -8,6 +8,15 @@ public class Reservation {
 	String period;
 	double arrivalTime; //format 3.21
 	double date; //format 18.10
+	
+	Reservation(){
+		ID = 0;
+		tableID = 0;
+		noOfPeople = 0;
+		period = "NIL";
+		arrivalTime = 0;
+		date = 0;
+	}
 
 	
 	Reservation(int id, int tid, int ppl, String ampm, double time, double dt){
@@ -36,7 +45,17 @@ public class Reservation {
 			// party is more than 30 minutes late, cancel reservation
 			return false; 
 		}
+	
 		
+	}
+	
+	public void removeReservation(){
+		ID = 0;
+		tableID = 0;
+		noOfPeople = 0;
+		period = "NIL";
+		arrivalTime = 0;
+		date = 0;
 	}
 	
 	
