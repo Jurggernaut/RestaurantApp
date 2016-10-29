@@ -5,68 +5,108 @@ import java.util.*;
 
 public class MainApplication {
 	public static void main(String[] args){
-	
+
 	int choice = 0;
 	int i;
 	
 	Scanner sc = new Scanner(System.in);
 	
 	//menu list
-	Items[] ItemMenu = new Items[40];
+	Items[] ItemMenu = new Items[41];
 	for (i=0;i<40;i++){
 		ItemMenu[i] = new Items();
 	}
-	Packages[] PackageMenu = new Packages[20];
+	Packages[] PackageMenu = new Packages[21];
 	for (i=0;i<20;i++){
 		PackageMenu[i] = new Packages();
 	}
-	Order[] OrderList = new Order[100];
+	Order[] OrderList = new Order[101];
 	for (i=0; i<100;i++){
 		OrderList[i] = new Order();
 	}
 	
-	Reservation[] ReservationList = new Reservation[500];
+	Reservation[] ReservationList = new Reservation[501];
 	for (i=0; i<500; i++){
 		ReservationList[i] = new Reservation();
 	}
 	
+	Table[] Tables = new Table[30];
+	for(i=0;i<5;i++){
+		Tables[i] = new Table(i, 10);
+	}
+	
+	for(i=5;i<10;i++){
+		Tables[i] = new Table(i, 8);
+	}
+	
+	for(i=10;i<20;i++){
+		Tables[i] = new Table(i, 4);
+	}
+	
+	for(i=20;i<30;i++){
+		Tables[i] = new Table(i, 2);
+	}
+	
 	System.out.println("Application online");
 	
-	while(choice !=8){
+	while(choice !=9){
+		System.out.println(" ");
 		System.out.println("Please make a choice by choosing a number");
 		System.out.println("1) Item options");
 		System.out.println("2) Packages options");
 		System.out.println("3) Print Menu");
 		System.out.println("4) Order options");
 		System.out.println("5) Reservation Options");
-		System.out.println("6) Customer Registration options");
-		System.out.println("7) Customer leaving Procedure");
-		System.out.println("8) Shut down Application");
+		System.out.println("6) Print Free Tables");
+		System.out.println("7) Customer Registration options");
+		System.out.println("8) Customer leaving Procedure");
+		System.out.println("9) Shut down Application");
 		
 		choice = sc.nextInt();
+		sc.nextLine();
 		switch(choice){
 			case(1): ItemMethod(ItemMenu);
 				break;
 			case(2): PackageMethod(PackageMenu);
 				break;
 			case (3): for (i =0; i<40; i++){
-					if(ItemMenu[i].Name != "NIL")
+					if(ItemMenu[i].Name != "NIL"){
 						ItemMenu[i].printItem();
+						System.out.println(" ");
+					}
 					}
 			
 					for (i=0; i<20;i++){
-						if(PackageMenu[i].Name != "NIL")
+						if(PackageMenu[i].Name != "NIL"){
 							PackageMenu[i].printItem();
+							System.out.println(" ");
+						}
 					}
 					break;
 		
 			case(4): OrderMethod(OrderList, ItemMenu, PackageMenu);
 				break;
-			case(5): ReservationMethod();			
+			case(5): ReservationMethod(ReservationList);			
 				break;
-			case(6):
-			case(7):
-			case(8): System.out.println("Application will shut down");
+			case(6): 
+				OccupiedCheck(Tables, ReservationList);
+				for(i=0;i<30;i++){
+					if(Tables[i].getOccupied() == false){
+						
+						Tables[i].printDetails();
+						System.out.println(" ");
+					}
+				}
+				
+				break;
+			
+			case(7): 
+				OccupiedCheck(Tables, ReservationList);
+				Registration(Tables);
+				break;
+			case(8):
+				break;
+			case(9): System.out.println("Application will shut down");
 				break;
 			default: System.out.println("Error in choice, restarting choice selection");
 			break;
@@ -83,6 +123,11 @@ public class MainApplication {
 		int i;
 		String Name, type, Des;
 		double price;
+		
+		System.out.println(ItemsMenu[0].getName());
+		if (ItemsMenu[0].getName().equals("fire"))
+			System.out.println("Activating");
+		;
 		
 		System.out.println("Please make a choice of what you wish to do to an item");
 		System.out.println("1) Add item");
@@ -106,7 +151,7 @@ public class MainApplication {
 					price = sc.nextDouble();
 					for (i =0; i<40; i++)
 					{
-						if(ItemsMenu[i]== null || ItemsMenu[i].Name == "NIL"){
+						if(ItemsMenu[i].Name == "NIL"){
 							ItemsMenu[i] = new Items(Name,Describe,Type,price);
 							System.out.println("Item added");
 							ItemsMenu[i].printItem();
@@ -121,10 +166,13 @@ public class MainApplication {
 					Name = sc.nextLine();
 					
 					for (i =0; i<40; i++){
-						if(ItemsMenu[i].Name == Name)
+						System.out.println(i);
+						if(ItemsMenu[i].getName().equals(Name)){
+							System.out.println("Activated");
 							break;
+						}
 					}
-					if (ItemsMenu[i].Name != Name){
+					if (ItemsMenu[i] == null){
 						System.out.println("Item not found, terminating item choice");
 						return;
 					}
@@ -139,10 +187,10 @@ public class MainApplication {
 					sc.nextLine();
 					Name = sc.nextLine();
 					for (i =0; i<40; i++){
-						if(ItemsMenu[i].Name == Name)
+						if(ItemsMenu[i].getName().equals(Name))
 							break;
 					}
-					if (ItemsMenu[i].Name != Name){
+					if (ItemsMenu[i]== null){
 						System.out.println("Item not found, terminating item choice");
 						return;
 					}
@@ -156,10 +204,10 @@ public class MainApplication {
 					sc.nextLine();
 					Name = sc.nextLine();
 					for (i =0; i<40; i++){
-						if(ItemsMenu[i].Name == Name)
+						if(ItemsMenu[i].getName().equals(Name))
 							break;
-					}	
-					if (ItemsMenu[i].Name != Name){
+					}
+					if (ItemsMenu[i] == null){
 						System.out.println("Item not found, terminating item choice");
 						return;
 					}
@@ -173,10 +221,10 @@ public class MainApplication {
 					sc.nextLine();
 					Name = sc.nextLine();
 					for (i =0; i<40; i++){
-						if(ItemsMenu[i].Name == Name)
+						if(ItemsMenu[i].getName().equals(Name))
 							break;
-					}	
-					if (ItemsMenu[i].Name != Name){
+					}
+					if (ItemsMenu[i] == null){
 						System.out.println("Item not found, terminating item choice");
 						return;
 					}
@@ -190,10 +238,10 @@ public class MainApplication {
 					sc.nextLine();
 					Name = sc.nextLine();
 					for (i =0; i<40; i++){
-						if(ItemsMenu[i].Name == Name)
+						if(ItemsMenu[i].getName().equals(Name))
 							break;
 					}	
-					if (ItemsMenu[i].Name != Name){
+					if (ItemsMenu[i] == null){
 						System.out.println("Item not found, terminating item choice");
 						return;
 					}
@@ -211,7 +259,7 @@ public class MainApplication {
 		
 		Scanner sc = new Scanner(System.in);
 		int i;
-		String Name, type, Des;
+		String Name, Des;
 		double price, newPrice;
 	
 		System.out.println("Please make a choice of what you wish to do to a package");
@@ -235,7 +283,7 @@ public class MainApplication {
 					newPrice = sc.nextDouble();
 					for (i =0; i<20; i++)
 					{
-						if(PackageMenu[i]== null || PackageMenu[i].Name == "NIL"){
+						if(PackageMenu[i].Name == "NIL"){
 							PackageMenu[i] = new Packages(Name,Describe,price,newPrice);
 							System.out.println("Item added");
 							PackageMenu[i].printItem();
@@ -250,10 +298,10 @@ public class MainApplication {
 					Name = sc.nextLine();
 
 					for (i =0; i<20; i++){
-						if(PackageMenu[i].Name == Name)
+						if(PackageMenu[i].getName().equals(Name))
 							break;
 					}
-					if (PackageMenu[i].Name != Name){
+					if (PackageMenu[i] == null){
 						System.out.println("Package not found, terminating item choice");
 						return;
 					}
@@ -270,10 +318,10 @@ public class MainApplication {
 					sc.nextLine();
 					Name = sc.nextLine();
 					for (i =0; i<20; i++){
-						if(PackageMenu[i].Name == Name)
+						if(PackageMenu[i].getName().equals(Name))
 							break;
 					}	
-					if (PackageMenu[i].Name != Name){
+					if (PackageMenu[i] == null){
 						System.out.println("Package not found, terminating item choice");
 						return;
 					}
@@ -287,10 +335,10 @@ public class MainApplication {
 					sc.nextLine();
 					Name = sc.nextLine();
 					for (i =0; i<20; i++){
-						if(PackageMenu[i].Name == Name)
+						if(PackageMenu[i].getName().equals(Name))
 							break;
 					}	
-					if (PackageMenu[i].Name != Name){
+					if (PackageMenu[i] == null){
 						System.out.println("Package not found, terminating item choice");
 						return;
 					}
@@ -304,10 +352,10 @@ public class MainApplication {
 					sc.nextLine();
 					Name = sc.nextLine();
 					for (i =0; i<40; i++){
-						if(PackageMenu[i].Name == Name)
+						if(PackageMenu[i].getName().equals(Name))
 							break;
 					}	
-					if (PackageMenu[i].Name != Name){
+					if (PackageMenu[i]== null){
 						System.out.println("Item not found, terminating item choice");
 						return;
 					}
@@ -324,8 +372,8 @@ public class MainApplication {
 	public static void OrderMethod(Order[] OrderList, Items[] ItemMenu, Packages[] PackageMenu){
 		Scanner sc = new Scanner(System.in);
 		int i, id, table;
-		String Name, type, Des, flush, staff;
-		double price, newPrice;
+		String staff;
+
 	
 		System.out.println("Please make a choice of what you wish to do to an Order");
 		System.out.println("1) New Order");
@@ -354,7 +402,7 @@ public class MainApplication {
 					{
 						if(OrderList[i].ID == 0){
 							OrderList[i] = new Order(id, staff, table);
-							System.out.println("Item added");
+							System.out.println("Order added");
 							MakeOrder(OrderList[i], ItemMenu, PackageMenu);
 							OrderList[i].PrintOrder();
 							return;
@@ -370,7 +418,7 @@ public class MainApplication {
 						if(OrderList[i].ID == id)
 							break;
 					}
-					if (OrderList[i].ID != id){
+					if (OrderList[i] == null){
 						System.out.println("There is no such order");
 						return;
 					}
@@ -385,7 +433,7 @@ public class MainApplication {
 						if(OrderList[i].ID == id)
 							break;
 					}
-					if (OrderList[i].ID != id){
+					if (OrderList[i] == null){
 						System.out.println("There is no such order");
 						return;
 					}
@@ -400,7 +448,7 @@ public class MainApplication {
 						if(OrderList[i].ID == id)
 							break;
 					}
-					if (OrderList[i].ID != id){
+					if (OrderList[i] == null){
 						System.out.println("There is no such order");
 						return;
 					}
@@ -419,7 +467,7 @@ public class MainApplication {
 	
 	public static void MakeOrder(Order order, Items[] ItemMenu, Packages[] PackageMenu){
 		int choice = 0;
-		int i,j;
+		int i;
 		String name;
 		Items item;
 		Packages pack;
@@ -439,10 +487,10 @@ public class MainApplication {
 						sc.nextLine();
 						name = sc.nextLine();
 						for (i = 0; i<40; i++){
-							if (ItemMenu[i].Name == name)
+							if (ItemMenu[i].getName().equals(name))
 								break;
 						}
-						if (ItemMenu[i].Name != name){
+						if (ItemMenu[i] == null){
 							System.out.println("There is no such item in menu");
 						}
 						else{
@@ -455,10 +503,10 @@ public class MainApplication {
 						sc.nextLine();
 						name = sc.nextLine();
 						for (i = 0; i<40; i++){
-							if (PackageMenu[i].Name == name)
+							if (PackageMenu[i].getName().equals(name))
 								break;
 						}
-						if (PackageMenu[i].Name != name){
+						if (PackageMenu[i]== null){
 							System.out.println("There is no such Package in menu");
 						}
 						else{
@@ -470,12 +518,12 @@ public class MainApplication {
 			case (3):	System.out.println("Enter Item Name");
 						sc.nextLine();
 						name = sc.nextLine();
-						for (i = 0; i<40; i++){
-							if (ItemMenu[i].Name == name)
+						for (i = 0; i<20; i++){
+							if (order.Itemlist[i].getName().equals(name))
 								break;
 						}
-						if (ItemMenu[i].Name != name){
-							System.out.println("There is no such item in menu");
+						if (order.Itemlist[i] == null){
+							System.out.println("There is no such item in the order");
 						}
 						else{
 							item = ItemMenu[i];
@@ -486,12 +534,12 @@ public class MainApplication {
 			case (4):	System.out.println("Enter Package Name");
 						sc.nextLine();
 						name = sc.nextLine();
-						for (i = 0; i<40; i++){
-							if (PackageMenu[i].Name == name)
+						for (i = 0; i<5; i++){
+							if (order.Packagelist[i].getName().equals(name))
 								break;
 						}
-						if (PackageMenu[i].Name != name){
-							System.out.println("There is no such Package in menu");
+						if (order.Packagelist[i] == null){
+							System.out.println("There is no such Package in order");
 						}
 						else{
 							pack = PackageMenu[i];
@@ -501,7 +549,9 @@ public class MainApplication {
 						break;
 			case (5): 	order.PrintOrder();
 						break;
-			case (6):	break;
+						
+			case (6):	System.out.println("Returning to main menu");
+						break;
 			default:	System.out.println("Error, choose again");
 						break;
 			
@@ -509,38 +559,164 @@ public class MainApplication {
 		}
 	}
 	
-	public static void ReservationMethod(){
+	public static void ReservationMethod(Reservation[] ReservationList){
 		int choice = 0;
-		int i,j;
-		String name;
-		Items item;
-		Packages pack;
+		int i, id;
+		int tid, y, mm, d, h, m;
+		GregorianCalendar Res;
 		Scanner sc = new Scanner(System.in);
-		Calendar cal = Calendar.getInstance();
-		double currentTime = (cal.get(Calendar.HOUR) + (double)cal.get(Calendar.MINUTE)/100);
 
-		while (choice != 6){
+
+		while (choice != 5){
 			System.out.println("Please make a choice of what you wish to do to reservations");
 			System.out.println("1) Add Reservation");
 			System.out.println("2) Edit Reservation");
 			System.out.println("3) Delete Reservation");
-			System.out.println("4) Check Reservation on current statues");
-			//Removes all expired reservation while causing all tables reserved at that time to be set to occupied
-			System.out.println("5) Print out Reservation");
-			System.out.println("6) Exit");
+			System.out.println("4) Print out Reservation");
+			System.out.println("5) Exit");
 			choice = sc.nextInt();
 			switch(choice){
 			case (1):
-			case (2):
+				System.out.println("Enter ID of the new Order");
+				sc.nextLine();
+				id = sc.nextInt();
+				for (i=0; i<500; i++){
+					if(ReservationList[i].ID == id){
+						System.out.println("There is already an order with that ID");
+						return;
+					}
+				}
+				System.out.println("Enter tableID: ");
+				tid =sc.nextInt();
+				System.out.println("Enter Year: ");
+				y =sc.nextInt();
+			    System.out.println("Enter Month: ");
+			    m =sc.nextInt();
+			    System.out.println("Enter Day: ");
+			    d = sc.nextInt();
+			    System.out.println("Enter Hour: ");
+			    h = sc.nextInt();
+			    System.out.println("Enter Minute: ");
+			    mm = sc.nextInt();
+			    Res = new GregorianCalendar(y,m,d,h,mm);
+			    for (i =0; i<500; i++)
+				{
+					if(ReservationList[i].ID == 0){
+						ReservationList[i] = new Reservation(id, tid, Res);
+						System.out.println("Reservation added");
+
+						return;
+					}
+				}
+			  	System.out.println("Reservation list too full, please remove Reservation");
+			  	return;
+			    
+			    
+
+			case (2): 
+				System.out.println("Enter Reservation ID");
+				sc.nextLine();
+				id = sc.nextInt();
+				for(i = 0; i<500; i++){
+					if(ReservationList[i].ID == id)
+						break;
+				}
+				if (ReservationList[i] == null){
+					System.out.println("There is no such reservation");
+					return;
+				}
+				else{
+					System.out.println("Enter new tableID: ");
+					tid =sc.nextInt();
+					System.out.println("Enter new Year: ");
+					y =sc.nextInt();
+				    System.out.println("Enter new Month: ");
+				    m =sc.nextInt();
+				    System.out.println("Enter new Day: ");
+				    d = sc.nextInt();
+				    System.out.println("Enter new Hour: ");
+				    h = sc.nextInt();
+				    System.out.println("Enter new Minute: ");
+				    mm = sc.nextInt();
+				    Res = new GregorianCalendar(y,m,d,h,mm);
+				    ReservationList[i] = new Reservation(id, tid, Res);
+				    System.out.println("Reservatoin changed");
+				    return;
+			}
 			case (3):
+				System.out.println("Enter Reservation ID");
+				sc.nextLine();
+				id = sc.nextInt();
+				for(i = 0; i<500; i++){
+					if(ReservationList[i].ID == id)
+						break;
+				}
+				if (ReservationList[i] == null){
+					System.out.println("There is no such reservation");
+					return;
+				}
+				else{
+					ReservationList[i].clearReservation();
+					return;
+		}
 			case (4):
-			case (5):
-			case (6):
+				System.out.println("Enter Reservation ID");
+				sc.nextLine();
+				id = sc.nextInt();
+				for(i = 0; i<500; i++){
+					if(ReservationList[i].ID == id)
+						break;
+				}
+				if (ReservationList[i] == null){
+					System.out.println("There is no such reservation");
+					return;
+				}
+				ReservationList[i].printReservation();
+				return;
+				
+			case (5): 
+				System.out.println("Exiting Reservation Menu");
+				return;
 			default:
+				System.out.println("Error, choose again");
+				break;
 			
 				}
 			}
 		
+	}
+	
+	public static void Registration(Table[] Tables){
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter table ID to be taken");
+		int id = sc.nextInt();
+		if(Tables[id].getOccupied() == true)
+			System.out.println("Table is already taken, returning to main menu");
+		else{
+			Tables[id].isOccupied();
+			System.out.println("Table " + id + "is now occupied");
+		}
+		
+	}
+	
+	public static void OccupiedCheck(Table[] Tables, Reservation[] Reservations){
+		int i,j;
+		int table;
+		for (i=0;i<500;i++){
+			if(Reservations[i].checkTime() == false)
+				Reservations[i].clearReservation();
+		}
+		for (i=0;i<30;i++){
+			for(j=0;j<500;j++){
+				if (Tables[i].ID == Reservations[j].tableID && Tables[i].getOccupied() == false
+						&& Reservations[j].checkTable() == true){
+					Tables[i].isOccupied();
+				}
+			}
+		}
+		
+		
+
 	}
 	
 	}

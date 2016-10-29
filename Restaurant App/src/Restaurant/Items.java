@@ -27,6 +27,10 @@ public class Items {
 		Price = p;
 	}
 	
+	public String getName(){
+		return Name;
+	}
+	
 	public void changeDescription(String d){
 		Description = d;
 	}

@@ -11,11 +11,13 @@ public class Order {
 	Order(){
 		ID = 0;
 		tableID = 0;
+		Itemlist = new Items[11];
 		for (i=0;i<10;i++){
-			Itemlist[i].Name = "NIL";
+			Itemlist[i]= new Items();
 		}
+		Packagelist = new Packages[6];
 		for (i=0;i<5;i++){
-			Packagelist[i].Name = "NIL";
+			Packagelist[i]= new Packages();
 		}
 		StaffinCharge = "NIL";
 	}
