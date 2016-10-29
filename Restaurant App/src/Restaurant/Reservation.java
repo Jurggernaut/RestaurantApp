@@ -1,62 +1,81 @@
 package Restaurant;
-import java.util.Calendar;
+import java.util.*;
+import java.text.*;
 
 public class Reservation {
 	int ID;
 	int tableID;
-	int noOfPeople;
-	String period;
-	double arrivalTime; //format 3.21
-	double date; //format 18.10
+	Calendar date;
 	
 	Reservation(){
 		ID = 0;
 		tableID = 0;
-		noOfPeople = 0;
-		period = "NIL";
-		arrivalTime = 0;
-		date = 0;
+		date = new GregorianCalendar(0,0,0,0,00);
 	}
 
 	
-	Reservation(int id, int tid, int ppl, String ampm, double time, double dt){
+	Reservation(int id, int tid, Calendar d){
 		ID = id;
 		tableID = tid;
-		noOfPeople = ppl;
-		period = ampm;
-		arrivalTime = time;
-		date = dt;
+		date = d;
+}
+	public void clearReservation(){
+		ID = 0;
+		tableID = 0;
+		date = new GregorianCalendar(0, 0, 0, 0 ,00);
 	}
 	
-	public boolean checkTime(double arrivalTime) {
-		Calendar cal = Calendar.getInstance();
-		//To shift the clock to the next hour (because one hour has 60 minutes and not 100 minutes):
-		if (arrivalTime%1 > 0.29) {
-			arrivalTime = arrivalTime + 0.7;
-		}
-		else {
-			arrivalTime = arrivalTime + 0.3;
-		}
-		if (arrivalTime >= (cal.get(Calendar.HOUR) + (double)cal.get(Calendar.MINUTE)/100)) {
+	public void printReservation(){
+		System.out.println("ID = " + ID);
+		System.out.println("TableID = " + tableID);
+		Date printout = date.getTime();
+		SimpleDateFormat format1 = new SimpleDateFormat("y-M-d 'at' h:m");
+		String date1 = format1.format(printout); 
+	    System.out.println("Format 1:   " + date1);
+	}
+	
+
+	
+	public boolean checkTime() {
+		Calendar now = Calendar.getInstance();
+		date.add(Calendar.MINUTE, 30);
+		now.add(Calendar.MONTH, 1);
+		date.add(Calendar.MONTH, 2);
+		if (date.compareTo(now) >= 0) {
 			//Current time is before or exactly at the arrival time + 30 minutes.
 			return true;
 		}
 		else {
 			// party is more than 30 minutes late, cancel reservation
-			return false; 
-		}
+			return false;
+}
 	
 		
 	}
 	
-	public void removeReservation(){
-		ID = 0;
-		tableID = 0;
-		noOfPeople = 0;
-		period = "NIL";
-		arrivalTime = 0;
-		date = 0;
+	public int getTableID(){
+		return tableID;
 	}
+	
+	public boolean checkTable() {
+        Calendar now = Calendar.getInstance();
+        now.add(Calendar.MONTH, 1);
+        date.add(Calendar.MONTH, 2);
+        date.add(Calendar.HOUR, -2);
+
+        if (date.compareTo(now) >= 0) {
+            return true;
+        }
+        date.add(Calendar.MINUTE, 150);
+        if (date.compareTo(now) >= 0){
+            return true;
+        }
+        else {
+            return false;
+        }
+
+    }
+
 	
 	
 
