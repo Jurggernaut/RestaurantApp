@@ -22,6 +22,11 @@ public class Packages extends Items {
 		newPrice = np;
 	}
 	
+	public void changePrices(double p, double np){
+		super.changePrice(p);
+		newPrice = np;
+	}
+	
 	public void clearItem(){
 		Name = " NIL ";
 		Description = " NIL ";

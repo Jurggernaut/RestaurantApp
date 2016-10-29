@@ -20,6 +20,10 @@ public class Staff {
 		Title = t;
 	}
 	
+	public String getName(){
+		return Name;
+	}
+	
 	public void changeTitle(String t){
 		Title = t;
 	}
