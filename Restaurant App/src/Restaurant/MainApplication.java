@@ -2,6 +2,7 @@ package Restaurant;
 
 
 import java.util.*;
+import java.io.*;
 
 public class MainApplication {
 	public static void main(String[] args){
@@ -47,6 +48,10 @@ public class MainApplication {
 		Tables[i] = new Table(i, 2);
 	}
 	
+	loadItems(ItemMenu);
+	loadReservations(ReservationList);
+	loadPackages(PackageMenu);
+	
 	System.out.println("Application online");
 	
 	while(choice !=9){
@@ -70,14 +75,14 @@ public class MainApplication {
 			case(2): PackageMethod(PackageMenu);
 				break;
 			case (3): for (i =0; i<40; i++){
-					if(ItemMenu[i].Name != "NIL"){
+					if(ItemMenu[i].getName().equals("NIL")== false){
 						ItemMenu[i].printItem();
 						System.out.println(" ");
 					}
 					}
 			
 					for (i=0; i<20;i++){
-						if(PackageMenu[i].Name != "NIL"){
+						if(PackageMenu[i].getName().equals("NIL") == false){
 							PackageMenu[i].printItem();
 							System.out.println(" ");
 						}
@@ -111,9 +116,13 @@ public class MainApplication {
 			default: System.out.println("Error in choice, restarting choice selection");
 			break;
 		}
+		
+
 	}
 	
-	
+	saveItems(ItemMenu);
+	saveReservations(ReservationList);
+	savePackages(PackageMenu);
 		
 	}
 	
@@ -123,11 +132,7 @@ public class MainApplication {
 		int i;
 		String Name, type, Des;
 		double price;
-		
-		System.out.println(ItemsMenu[0].getName());
-		if (ItemsMenu[0].getName().equals("fire"))
-			System.out.println("Activating");
-		;
+
 		
 		System.out.println("Please make a choice of what you wish to do to an item");
 		System.out.println("1) Add item");
@@ -151,7 +156,7 @@ public class MainApplication {
 					price = sc.nextDouble();
 					for (i =0; i<40; i++)
 					{
-						if(ItemsMenu[i].Name == "NIL"){
+						if(ItemsMenu[i].getName().equals("NIL")==true){
 							ItemsMenu[i] = new Items(Name,Describe,Type,price);
 							System.out.println("Item added");
 							ItemsMenu[i].printItem();
@@ -283,7 +288,7 @@ public class MainApplication {
 					newPrice = sc.nextDouble();
 					for (i =0; i<20; i++)
 					{
-						if(PackageMenu[i].Name == "NIL"){
+						if(PackageMenu[i].getName().equals("NIL")==true){
 							PackageMenu[i] = new Packages(Name,Describe,price,newPrice);
 							System.out.println("Item added");
 							PackageMenu[i].printItem();
@@ -402,6 +407,7 @@ public class MainApplication {
 					{
 						if(OrderList[i].ID == 0){
 							OrderList[i] = new Order(id, staff, table);
+							OrderList[i].setOrder();
 							System.out.println("Order added");
 							MakeOrder(OrderList[i], ItemMenu, PackageMenu);
 							OrderList[i].PrintOrder();
@@ -713,10 +719,132 @@ public class MainApplication {
 					Tables[i].isOccupied();
 				}
 			}
-		}
-		
-		
+		}		
 
+	}
+	
+	public static void saveItems(Items [] ItemsList) {
+        try {
+        	File file = new File("Items.list");
+        	
+        	if(!file.exists()){
+        		file.createNewFile();
+        	}
+        	
+            FileOutputStream fos = new FileOutputStream("Items.list");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+            System.out.print("saving data to ItemsList ...\n");
+            for(int i=0; i<ItemsList.length; i++) {
+            	oos.writeObject(ItemsList[i]);
+            }
+            oos.close();
+        } catch (IOException e) {
+            System.out.println("File input error");
+            System.out.println(e.getMessage());
+        }
+	}
+	
+	public static void loadItems(Items [] ItemsList) {
+		try {
+            FileInputStream fis = new FileInputStream("Items.list");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+
+            System.out.print("reading data from ItemsList ...\n");        
+            for(int i=0; i<ItemsList.length; i++) {
+            	ItemsList[i] = (Items) ois.readObject();
+            }
+            ois.close();
+        } catch (IOException e) {
+            System.out.println("File input error");
+            System.out.println(e.getMessage());
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+            System.out.println(e.getMessage());
+        }
+	}
+	
+	public static void saveReservations(Reservation [] ReservationList) {
+		try {
+			File file = new File("Reservation.list");
+        	
+        	if(!file.exists()){
+        		file.createNewFile();
+        	}
+			
+			
+            FileOutputStream fos = new FileOutputStream("Reservation.list");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+            System.out.print("saving data to ReservationList ...\n");
+            for(int i=0; i<ReservationList.length; i++) {
+            	oos.writeObject(ReservationList[i]);
+            }
+            oos.close();
+        } catch (IOException e) {
+            System.out.println("File input error");
+            System.out.println(e.getMessage());
+        }
+	}
+	
+	public static void loadReservations(Reservation [] ReservationList) {
+		try {
+            FileInputStream fis = new FileInputStream("Reservation.list");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+
+            System.out.print("reading data from ReservationList ...\n");        
+            for(int i=0; i<ReservationList.length; i++) {
+            	ReservationList[i] = (Reservation) ois.readObject();
+            }
+            ois.close();
+        } catch (IOException e) {
+            System.out.println("File input error");
+            System.out.println(e.getMessage());
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+            System.out.println(e.getMessage());
+        }
+	}
+	
+	public static void savePackages(Packages[] Packagelist) {
+		try {
+			File file = new File("Package.list");
+        	
+        	if(!file.exists()){
+        		file.createNewFile();
+        	}
+			
+            FileOutputStream fos = new FileOutputStream("Package.list");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+            System.out.print("saving data to PackageList ...\n");
+            for(int i=0; i<Packagelist.length; i++) {
+            	oos.writeObject(Packagelist[i]);
+            }
+            oos.close();
+        } catch (IOException e) {
+            System.out.println("File input error");
+            System.out.println(e.getMessage());
+        }
+	}
+	
+	public static void loadPackages(Packages[] Packagelist) {
+		try {
+            FileInputStream fis = new FileInputStream("Package.list");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+
+            System.out.print("reading data from PackageList ...\n");        
+            for(int i=0; i<Packagelist.length; i++) {
+            	Packagelist[i] = (Packages) ois.readObject();
+            }
+            ois.close();
+        } catch (IOException e) {
+            System.out.println("File input error");
+            System.out.println(e.getMessage());
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+            System.out.println(e.getMessage());
+        }
 	}
 	
 	}

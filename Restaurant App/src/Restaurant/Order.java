@@ -6,19 +6,15 @@ public class Order {
 	Items[] Itemlist;
 	Packages[] Packagelist;
 	String StaffinCharge;
-	int i;
+
 	
 	Order(){
 		ID = 0;
 		tableID = 0;
 		Itemlist = new Items[11];
-		for (i=0;i<10;i++){
-			Itemlist[i]= new Items();
-		}
+
 		Packagelist = new Packages[6];
-		for (i=0;i<5;i++){
-			Packagelist[i]= new Packages();
-		}
+
 		StaffinCharge = "NIL";
 	}
 	
@@ -38,9 +34,21 @@ public class Order {
 		StaffinCharge = s;
 	}
 	
+	public void setOrder(){
+		int i;
+		for (i=0;i<10;i++){
+			Itemlist[i]= new Items();
+		}
+		
+		for (i=0;i<5;i++){
+			Packagelist[i]= new Packages();
+		}
+	}
+	
 	public void AddItem(Items it){
+		int i;
 		for (i=0; i<10; i++){
-			if(Itemlist[i].Name == "NIL"){
+			if(Itemlist[i].getName().equals("NIL")){
 				Itemlist[i] = it;
 				return;
 			}
@@ -50,8 +58,9 @@ public class Order {
 	}
 	
 	public void AddItem(Packages it){
+		int i;
 		for (i=0; i<5; i++){
-			if(Packagelist[i].Name == "NIL"){
+			if(Packagelist[i].getName().equals("NIL")){
 				Packagelist[i] = it;
 				return;
 			}
@@ -61,6 +70,7 @@ public class Order {
 	}
 	
 	public void RemoveItem(Items it){
+		int i;
 		for (i=0; i<10; i++){
 			if(Itemlist[i] == it){
 				Itemlist[i].clearItem();
@@ -72,6 +82,7 @@ public class Order {
 	}
 	
 	public void RemoveItem(Packages it){
+		int i;
 		for (i=0; i<5; i++){
 			if(Packagelist[i] == it){
 				Packagelist[i].clearItem();
@@ -83,15 +94,16 @@ public class Order {
 	}
 	
 	public void PrintOrder(){
+		int i;
 		for (i=0; i<10; i++){
-			if(Itemlist[i].Name != "NIL"){
+			if(Itemlist[i].getName().equals("NIL") == false){
 				System.out.println(Itemlist[i].Name + "   " + Itemlist[i].Price);
 				return;
 			}
 		}
 		
 		for (i=0; i<5; i++){
-			if(Packagelist[i].Name != "NIL"){
+			if(Packagelist[i].getName().equals("NIL") == false){
 				System.out.println(Packagelist[i].Name + "   " + Packagelist[i].newPrice);
 				return;
 			}
@@ -101,16 +113,17 @@ public class Order {
 	}
 	
 	public double calculatePrice(){
+		int i;
 		double total = 0;
 		for (i=0; i<10; i++){
-			if(Itemlist[i].Name != "NIL" && Itemlist[i] != null){
+			if(Itemlist[i].getName().equals("NIL") == false){
 				total += Itemlist[i].Price;
 
 			}
 		}
 		
 		for (i=0; i<5; i++){
-			if(Packagelist[i].Name != "NIL" && Packagelist[i] != null){
+			if(Packagelist[i].getName().equals("NIL") == false){
 				total += Packagelist[i].Price;
 
 			}
@@ -120,6 +133,7 @@ public class Order {
 	}
 	
 	public void removeOrder(){
+		int i;
 		ID = 0;
 		tableID = 0;
 		for (i=0;i<10;i++){

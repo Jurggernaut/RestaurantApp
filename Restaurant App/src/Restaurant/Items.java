@@ -1,6 +1,6 @@
 package Restaurant;
 
-public class Items {
+public class Items implements java.io.Serializable{
 	String Name;
 	String Description;
 	String Type;

@@ -1,6 +1,6 @@
 package Restaurant;
 
-public class Packages extends Items {
+public class Packages extends Items implements java.io.Serializable{
 	double newPrice;
 	
 	Packages(){
@@ -28,8 +28,8 @@ public class Packages extends Items {
 	}
 	
 	public void clearItem(){
-		Name = " NIL ";
-		Description = " NIL ";
+		Name = "NIL";
+		Description = "NIL";
 		Price = 0.0;
 		newPrice = 0.0;
 	}

@@ -2,7 +2,7 @@ package Restaurant;
 import java.util.*;
 import java.text.*;
 
-public class Reservation {
+public class Reservation implements java.io.Serializable{
 	int ID;
 	int tableID;
 	Calendar date;
