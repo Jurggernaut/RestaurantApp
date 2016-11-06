@@ -2,20 +2,38 @@ package Restaurant;
 
 public class Packages extends Items implements java.io.Serializable{
 	double newPrice;
+	Items[] Itemlist;
 	
 	Packages(){
 		super();
 		newPrice = 0.0;
+		Itemlist = new Items[10];
 	}
 	
-	Packages(String x, double p, double np){
-		super(x,p);
-		newPrice = np;
-	}
 	
 	Packages(String x, String d, double p,double np ){
 		super(x,d, "Package", p);
 		newPrice = np;
+		Itemlist = new Items[10];
+	}
+	
+	public void setPackages(){
+		for (int i = 0; i<10; i++){
+			Itemlist[i] = new Items();
+			System.out.println(Itemlist[i].Name);
+		}
+	}
+	
+	public void addItem(Items it){
+		int i;
+		for (i=0; i<10; i++){
+			if(Itemlist[i].getName().equals("NIL")){
+				Itemlist[i] = it;
+				return;
+			}
+		}
+		System.out.println("Error, too many items");
+		return;
 	}
 	
 	public void changeNewPrice(double np){

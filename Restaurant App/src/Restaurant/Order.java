@@ -12,9 +12,7 @@ public class Order {
 		ID = 0;
 		tableID = 0;
 		Itemlist = new Items[11];
-
 		Packagelist = new Packages[6];
-
 		StaffinCharge = "NIL";
 	}
 	

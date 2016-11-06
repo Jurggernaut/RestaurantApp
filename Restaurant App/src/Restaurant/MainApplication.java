@@ -54,7 +54,7 @@ public class MainApplication {
 	
 	System.out.println("Application online");
 	
-	while(choice !=9){
+	while(choice !=11){
 		System.out.println(" ");
 		System.out.println("Please make a choice by choosing a number");
 		System.out.println("1) Item options");
@@ -63,16 +63,18 @@ public class MainApplication {
 		System.out.println("4) Order options");
 		System.out.println("5) Reservation Options");
 		System.out.println("6) Print Free Tables");
-		System.out.println("7) Customer Registration options");
-		System.out.println("8) Customer leaving Procedure");
-		System.out.println("9) Shut down Application");
+		System.out.println("7) Table Options"); 
+		System.out.println("8) Customer Registration options");
+		System.out.println("9) Customer leaving Procedure");
+		System.out.println("10) Monthly report");
+		System.out.println("11) Shut down Application");
 		
 		choice = sc.nextInt();
 		sc.nextLine();
 		switch(choice){
 			case(1): ItemMethod(ItemMenu);
 				break;
-			case(2): PackageMethod(PackageMenu);
+			case(2): PackageMethod(PackageMenu, ItemMenu);
 				break;
 			case (3): for (i =0; i<40; i++){
 					if(ItemMenu[i].getName().equals("NIL")== false){
@@ -102,16 +104,19 @@ public class MainApplication {
 						System.out.println(" ");
 					}
 				}
+				break;
 				
+			case(7):
+				TableMethod(Tables);
 				break;
 			
-			case(7): 
+			case(8): 
 				OccupiedCheck(Tables, ReservationList);
 				Registration(Tables);
 				break;
-			case(8):
+			case(9):
 				break;
-			case(9): System.out.println("Application will shut down");
+			case(11): System.out.println("Application will shut down");
 				break;
 			default: System.out.println("Error in choice, restarting choice selection");
 			break;
@@ -125,6 +130,9 @@ public class MainApplication {
 	savePackages(PackageMenu);
 		
 	}
+	
+	//Methods split up for each and every manipulation of the items, package, order, table and reservation
+	//For ease of editing for that specific component
 	
 	public static void ItemMethod(Items[] ItemsMenu){
 		
@@ -173,7 +181,6 @@ public class MainApplication {
 					for (i =0; i<40; i++){
 						System.out.println(i);
 						if(ItemsMenu[i].getName().equals(Name)){
-							System.out.println("Activated");
 							break;
 						}
 					}
@@ -260,11 +267,12 @@ public class MainApplication {
 		}
 	}
 	
-	public static void PackageMethod(Packages[] PackageMenu){
+	public static void PackageMethod(Packages[] PackageMenu, Items[] ItemMenu){
 		
 		Scanner sc = new Scanner(System.in);
-		int i;
-		String Name, Des;
+		int i,j,k;
+		String Name, ItemName, Des;
+		Items item;
 		double price, newPrice;
 	
 		System.out.println("Please make a choice of what you wish to do to a package");
@@ -286,11 +294,33 @@ public class MainApplication {
 					price = sc.nextDouble();
 					System.out.println("Enter the package's new Price");
 					newPrice = sc.nextDouble();
+					j = 1;
 					for (i =0; i<20; i++)
 					{
 						if(PackageMenu[i].getName().equals("NIL")==true){
 							PackageMenu[i] = new Packages(Name,Describe,price,newPrice);
-							System.out.println("Item added");
+							PackageMenu[i].setPackages();
+							System.out.println(PackageMenu[i].Itemlist[0].Name + "2");
+							while(j == 1){
+								System.out.println("Enter Item Name");
+								sc.nextLine();
+								ItemName = sc.nextLine();
+								for (k = 0; k<40; k++){
+									if (ItemMenu[k].getName().equals(ItemName))
+										break;
+								}
+								if (ItemMenu[k] == null){
+									System.out.println("There is no such item in menu");
+								}
+								else{
+									item = ItemMenu[k];
+									PackageMenu[i].addItem(item);
+									System.out.println("Item added");
+								}
+								System.out.println("Enter 1 to continue, any other number to stop adding items");
+								j = sc.nextInt();
+							}
+							System.out.println("Package added");
 							PackageMenu[i].printItem();
 							return;
 						}
@@ -372,6 +402,29 @@ public class MainApplication {
 		default:	System.out.println("Error, returning to main menu");
 					return;
 		}	
+	}
+	
+	public static void TableMethod(Table[] Tables){
+		int table;
+		int choice;
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println("Enter Table ID");
+		table = sc.nextInt();
+		if(Tables[table].occupied == true){
+			System.out.println("Table is Occupied, type 1 to free up table");
+			choice = sc.nextInt();
+			if(choice == 1){
+				Tables[table].isFree();
+			}
+		}
+		else{
+			System.out.println("Table is Free, type 1 to occupy table");
+			choice = sc.nextInt();
+			if(choice == 1){
+				Tables[table].isOccupied();
+			}
+		}
 	}
 	
 	public static void OrderMethod(Order[] OrderList, Items[] ItemMenu, Packages[] PackageMenu){
@@ -692,6 +745,8 @@ public class MainApplication {
 		
 	}
 	
+//Method for registration and leaving Procedures
+	
 	public static void Registration(Table[] Tables){
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Enter table ID to be taken");
@@ -705,12 +760,20 @@ public class MainApplication {
 		
 	}
 	
+	public static void Leaving(Table[] Tables, Order Order){
+		
+	}
+	
+	//Method OccupiedCheck to re-check the state of the tables and change the occupation accordingly,
+	//Used in functions when the state of the table and reservations need to be checked
+	
 	public static void OccupiedCheck(Table[] Tables, Reservation[] Reservations){
 		int i,j;
-		int table;
 		for (i=0;i<500;i++){
-			if(Reservations[i].checkTime() == false)
+			if(Reservations[i].checkTime() == false){
 				Reservations[i].clearReservation();
+			}
+			
 		}
 		for (i=0;i<30;i++){
 			for(j=0;j<500;j++){
@@ -722,6 +785,9 @@ public class MainApplication {
 		}		
 
 	}
+	
+	// Methods to load and save
+	
 	
 	public static void saveItems(Items [] ItemsList) {
         try {
