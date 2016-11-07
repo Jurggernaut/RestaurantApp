@@ -10,6 +10,7 @@ public class Packages extends Items implements java.io.Serializable{
 		Itemlist = new Items[11];
 	}
 	
+
 	
 	Packages(String x, String d, double p,double np ){
 		super(x,d, "Package", p);
@@ -54,5 +55,12 @@ public class Packages extends Items implements java.io.Serializable{
 	public void printItem(){
 		super.printItem();
 		System.out.println("New Price: " + newPrice);
+		System.out.println("Package contains:");
+		for (int i =0; i<10; i++){
+			if(Itemlist[i].Name.equals("NIL")== false){
+				System.out.println("  " + Itemlist[i].Name);;
+				System.out.println(" ");
+			}
+	}
 	}
 }

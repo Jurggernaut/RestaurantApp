@@ -124,7 +124,7 @@ public class MainApplication {
 					if(OrderList[i].ID == id)
 						break;
 				}
-				if(OrderList[i].ID == 0){
+				if(OrderList[i]== null){
 					System.out.println("There is no such order");
 					break;
 				}
@@ -133,11 +133,14 @@ public class MainApplication {
 				System.out.println("You were served by " + OrderList[i].StaffinCharge);
 				OrderList[i].PrintOrder();
 				System.out.println("Your Total is : " + OrderList[i].calculatePrice());
-				System.out.println("Enter any key to continue");
+				Order Inserted = OrderList[i];
+				saveOrderHistory(Inserted);
+				OrderList[i].removeOrder();
 				sc.nextLine();
 				}
 				break;
 			case(10): ReadMonthlyEarnings();
+				break;
 			case(11): System.out.println("Application will shut down");
 				break;
 			default: System.out.println("Error in choice, restarting choice selection");
@@ -413,7 +416,7 @@ public class MainApplication {
 		case(5):	System.out.println("Write down the Package's name");
 					sc.nextLine();
 					Name = sc.nextLine();
-					for (i =0; i<40; i++){
+					for (i =0; i<20; i++){
 						if(PackageMenu[i].getName().equals(Name))
 							break;
 					}	
@@ -612,8 +615,7 @@ public class MainApplication {
 							System.out.println("There is no such item in the order");
 						}
 						else{
-							item = ItemMenu[i];
-							order.RemoveItem(item);
+							order.Itemlist[i].clearItem();
 							System.out.println("Item removed");
 						}
 						break;
@@ -628,8 +630,7 @@ public class MainApplication {
 							System.out.println("There is no such Package in order");
 						}
 						else{
-							pack = PackageMenu[i];
-							order.RemoveItem(pack);
+							order.Packagelist[i].clearItem();
 							System.out.println("Package removed");
 						}
 						break;
@@ -952,12 +953,12 @@ public class MainApplication {
 		Packages pack;
 		
 		
-		MonthlySale[] List = new MonthlySale[200];
+		MonthlySale[] List = new MonthlySale[201];
 		for (i=0;i<200;i++){
 			List[i] = new MonthlySale();
 		}
 
-		month = now.get(Calendar.MONTH);
+		month = now.get(Calendar.MONTH) + 1;
 		year = now.get(Calendar.YEAR);
 		try {
 	      File folder = new File("" +year);
@@ -987,13 +988,19 @@ public class MainApplication {
 		
 		for(i=0;i<10;i++){
 			item = Order.Itemlist[i];
+			if(item.getName().equals("NIL"))
+				continue;
 			for(j =0; j<200; j++){
-				if(List[j].Item.equals(item.getName())){
+				if(List[j].getItem().equals(item.getName())){
 					List[j].addOne(item.Price);
+					break;
 				}
 				else if(List[j].Item.equals("NIL")){
 					break;
 				}
+			}
+			if(List[j] !=null && List[j].getItem().equals("NIL")){
+				List[j] = new MonthlySale(item.getName(),1,item.Price);
 			}
 		}
 		
@@ -1001,40 +1008,57 @@ public class MainApplication {
 		
 		for (i=0;i<5;i++){
 			pack = Order.Packagelist[i];
+			if(pack.getName().equals("NIL"))
+				continue;
+			
+			//first add each item without adding profit
 			if(!pack.Name.equals("NIL")){
 				for(j=0;j<10;j++){
 					item = pack.Itemlist[j];
+					if(item.getName().equals("NIL"))
+						continue;
 					for(k =0; k<200; k++){
-						if(List[j].Item.equals(item.getName())){
-							List[j].addOnePack();
+						if(List[k].getItem().equals(item.getName())){
+							List[k].addOnePack();
+							break;
 						}
-						else if(List[j].Item.equals("NIL")){
+						else if(List[k].Item.equals("NIL")){
 							break;
 						}
 					}
 					
+					if(List[k] !=null && List[k].getItem().equals("NIL")){
+						List[k] = new MonthlySale(item.getName(),1, 0);
+					}
+
+					}
 				}
+			
+			//next add package with profit
 				
 				for(j=0;j<200;j++){
-					if(List[j].Item.equals(pack.getName())){
+					if(List[j].getItem().equals(pack.getName())){
 						List[j].addOne(pack.Price);
+						break;
 					}
 					else if(List[j].Item.equals("NIL")){
 						break;
 					}
 					
 				}
-				
+				if(List[j] != null && List[j].getItem().equals("NIL")){
+					List[j] = new MonthlySale(pack.getName(),1,pack.Price);
+				}
 			}
-		}
 		
-         
+		
+         // put back in the new file, recreating it as the updated file
 	     try{
 	    	 
 		  File folder = new File("" +year);
 		      
 		  if(!folder.exists()){
-	      		folder.createNewFile();
+	      		folder.mkdir();
 		      }
 		      
 		  File file = new File("" + year + "/" + month);
@@ -1064,7 +1088,7 @@ public class MainApplication {
 		Scanner sc = new Scanner(System.in);
 		int month, year;
 		int i;
-		MonthlySale[] List = new MonthlySale[200];
+		MonthlySale[] List = new MonthlySale[201];
 
 		
 		System.out.println("Enter year");
@@ -1100,7 +1124,10 @@ public class MainApplication {
 		int totalProfit = 0;
 		
 		for (i=0;i<200;i++){
-			List[i].printData();
+			if(!List[i].getItem().equals("NIL"))
+			{
+				List[i].printData();
+			}
 			totalProfit += List[i].profit;
 		}
 		

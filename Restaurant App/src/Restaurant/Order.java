@@ -63,8 +63,9 @@ public class Order {
 	
 	public void RemoveItem(Items it){
 		int i;
+		String name = it.getName();
 		for (i=0; i<10; i++){
-			if(Itemlist[i] == it){
+			if(Itemlist[i].getName().equals(name)){
 				Itemlist[i].clearItem();
 				return;
 			}
@@ -75,8 +76,9 @@ public class Order {
 	
 	public void RemoveItem(Packages it){
 		int i;
+		String name = it.getName();
 		for (i=0; i<5; i++){
-			if(Packagelist[i] == it){
+			if(Packagelist[i].getName().equals(name)){
 				Packagelist[i].clearItem();
 				return;
 			}
@@ -100,7 +102,7 @@ public class Order {
 				
 			}
 			
-			return;
+			
 		}
 		
 
@@ -120,7 +122,7 @@ public class Order {
 		
 		for (i=0; i<5; i++){
 			if(Packagelist[i].getName().equals("NIL") == false){
-				total += Packagelist[i].Price;
+				total += Packagelist[i].newPrice;
 
 			}
 		}
@@ -133,10 +135,10 @@ public class Order {
 		ID = 0;
 		tableID = 0;
 		for (i=0;i<10;i++){
-			Itemlist[i].Name = "NIL";
+			Itemlist[i] = new Items();
 		}
 		for (i=0;i<5;i++){
-			Packagelist[i].Name = "NIL";
+			Packagelist[i] = new Packages();
 		}
 		StaffinCharge = "NIL";
 	}
