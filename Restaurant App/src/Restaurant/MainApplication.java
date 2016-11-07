@@ -947,7 +947,7 @@ public class MainApplication {
 	
 	public static void saveOrderHistory(Order Order) {
 		Calendar now = Calendar.getInstance();
-		int month, year;
+		int month, year, day;
 		int i,j,k;
 		Items item;
 		Packages pack;
@@ -958,13 +958,16 @@ public class MainApplication {
 			List[i] = new MonthlySale();
 		}
 
+		day = now.get(Calendar.DAY_OF_MONTH);
 		month = now.get(Calendar.MONTH) + 1;
 		year = now.get(Calendar.YEAR);
 		try {
 	      File folder = new File("" +year);
 	     
 	      
-	      File file = new File("" + year + "/" + month);
+	      File folder2 = new File("" + year + "/" + month);
+	      
+	      File file = new File(""+ year + "/" + month + "/" + day);
 	    
 	      
           FileInputStream fis = new FileInputStream(file);
@@ -1060,8 +1063,15 @@ public class MainApplication {
 		  if(!folder.exists()){
 	      		folder.mkdir();
 		      }
+		  
+		  File folder2 = new File("" + year + "/" + month);
+		  
+		  if(!folder2.exists()){
+	      		folder2.mkdir();
+		      }
+				  
 		      
-		  File file = new File("" + year + "/" + month);
+		  File file = new File("" + year + "/" + month + "/" + day);
 		      
 		  if(!file.exists()){
 		    	  file.createNewFile();
@@ -1086,21 +1096,42 @@ public class MainApplication {
 	
 	public static void ReadMonthlyEarnings(){
 		Scanner sc = new Scanner(System.in);
-		int month, year;
+		int month, year, firstDay, secondDay;
 		int i;
 		MonthlySale[] List = new MonthlySale[201];
-
+		for(i=0;i<200;i++){
+			List[i] = new MonthlySale();
+		}
+		
+		int totalProfit = 0;
 		
 		System.out.println("Enter year");
 		year = sc.nextInt();
 		System.out.println("Enter Month");
 		month = sc.nextInt();
+		try{
+			IOException rangeProblem = new IOException();
+			System.out.println("Enter beginning day of the month");
+			firstDay = sc.nextInt();
+			System.out.println("Enter end day of the month");
+			secondDay = sc.nextInt();
+			if(firstDay > secondDay)
+				
+				throw rangeProblem;
+		}catch (IOException rangeProblem){
+			System.out.println("Invalid range of date");
+			return;
+		}
 		
+		
+		
+		for (int j = firstDay; j <= secondDay; j++){
 		try {
 		      File folder = new File("" +year);
 		     
+		      File folder2 = new File("" + year + "/" + month);
 		      
-		      File file = new File("" + year + "/" + month);
+		      File file = new File("" + year + "/" + month + "/" + j);
 		    
 		      
 	          FileInputStream fis = new FileInputStream(file);
@@ -1112,16 +1143,14 @@ public class MainApplication {
 	          ois.close();
 
 	      	 }catch (IOException e) {
-	             System.out.println("File not found");
-	             System.out.println(e.getMessage());
-	             return;
+	             System.out.println("Nothing was recorded on " + year + " " + month + " " + j);
 	         } catch (ClassNotFoundException e) {
 	             System.out.println(e);
 	             System.out.println(e.getMessage());
 	             return;
 	         }
 		
-		int totalProfit = 0;
+		}
 		
 		for (i=0;i<200;i++){
 			if(!List[i].getItem().equals("NIL"))
@@ -1129,8 +1158,9 @@ public class MainApplication {
 				List[i].printData();
 			}
 			totalProfit += List[i].profit;
-		}
 		
+		
+		}
 		System.out.println("Total profit for Year " + year + " and Month " + month + " = " + totalProfit);
 		
 		}
