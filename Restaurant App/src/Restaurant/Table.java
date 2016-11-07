@@ -24,7 +24,7 @@ public class Table {
 	}
 	
 	public void printDetails(){
-		System.out.println(ID + "is free with seating capacity of " + seatingCapacity);
+		System.out.println(ID + " is free with seating capacity of " + seatingCapacity);
 	}
 	
 	

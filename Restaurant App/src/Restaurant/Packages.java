@@ -7,20 +7,19 @@ public class Packages extends Items implements java.io.Serializable{
 	Packages(){
 		super();
 		newPrice = 0.0;
-		Itemlist = new Items[10];
+		Itemlist = new Items[11];
 	}
 	
 	
 	Packages(String x, String d, double p,double np ){
 		super(x,d, "Package", p);
 		newPrice = np;
-		Itemlist = new Items[10];
+		Itemlist = new Items[11];
 	}
 	
 	public void setPackages(){
 		for (int i = 0; i<10; i++){
 			Itemlist[i] = new Items();
-			System.out.println(Itemlist[i].Name);
 		}
 	}
 	
