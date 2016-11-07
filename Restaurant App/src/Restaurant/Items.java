@@ -12,6 +12,7 @@ public class Items implements java.io.Serializable{
 		Type = "NIL";
 		Price = 0.0;
 	}
+
 	
 	Items(String x, double p){
 		Name = x;
