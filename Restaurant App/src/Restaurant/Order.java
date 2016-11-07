@@ -12,19 +12,11 @@ public class Order {
 		ID = 0;
 		tableID = 0;
 		Itemlist = new Items[11];
-
 		Packagelist = new Packages[6];
-
 		StaffinCharge = "NIL";
 	}
 	
-	Order(int id, Staff s, int table){
-		ID = id;
-		tableID = table;
-		Itemlist = new Items[10];
-		Packagelist = new Packages[5];
-		StaffinCharge = s.getName();
-	}
+
 	
 	Order(int id, String s, int table){
 		ID = id;
@@ -98,16 +90,20 @@ public class Order {
 		for (i=0; i<10; i++){
 			if(Itemlist[i].getName().equals("NIL") == false){
 				System.out.println(Itemlist[i].Name + "   " + Itemlist[i].Price);
-				return;
+				
 			}
 		}
 		
 		for (i=0; i<5; i++){
 			if(Packagelist[i].getName().equals("NIL") == false){
 				System.out.println(Packagelist[i].Name + "   " + Packagelist[i].newPrice);
-				return;
+				
 			}
+			
+			return;
 		}
+		
+
 		
 		System.out.println("Staff: " + StaffinCharge);
 	}
@@ -145,6 +141,13 @@ public class Order {
 		StaffinCharge = "NIL";
 	}
 	
+	public Items[] returnItemsList(){
+		return Itemlist;
+	}
+	
+	public Packages[] returnPackageList(){
+		return Packagelist;
+	}
 
 	
 

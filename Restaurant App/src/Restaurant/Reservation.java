@@ -76,7 +76,16 @@ public class Reservation implements java.io.Serializable{
 
     }
 
-	
+	public boolean checkDays(int days, Calendar object) {
+		Calendar now = Calendar.getInstance();
+		now.add(Calendar.DAY_OF_MONTH, -days);
+		if (object.compareTo(now) >= 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 	
 
 }
