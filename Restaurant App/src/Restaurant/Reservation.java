@@ -3,9 +3,9 @@ import java.util.*;
 import java.text.*;
 
 public class Reservation implements java.io.Serializable{
-	int ID;
-	int tableID;
-	Calendar date;
+	private int ID;
+	private int tableID;
+	private Calendar date;
 	
 	Reservation(){
 		ID = 0;
@@ -18,7 +18,17 @@ public class Reservation implements java.io.Serializable{
 		ID = id;
 		tableID = tid;
 		date = d;
-}
+	}
+	
+	public int getID(){
+		return ID;
+	}
+	
+	public int getTableID(){
+		return tableID;
+	}
+
+	
 	public void clearReservation(){
 		ID = 0;
 		tableID = 0;
@@ -53,9 +63,7 @@ public class Reservation implements java.io.Serializable{
 		
 	}
 	
-	public int getTableID(){
-		return tableID;
-	}
+
 	
 	public boolean checkTable() {
         Calendar now = Calendar.getInstance();

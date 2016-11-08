@@ -1,9 +1,9 @@
 package Restaurant;
 
 public class MonthlySale implements java.io.Serializable{
-	String Item;
-	int number;
-	double profit;
+	private String Item;
+	private int number;
+	private double profit;
 	
 	MonthlySale(){
 		Item = "NIL";
@@ -18,6 +18,14 @@ public class MonthlySale implements java.io.Serializable{
 	}
 	
 
+	public String getItem(){
+		return Item;
+	}
+	
+	public double getProfit(){
+		return profit;
+	}
+
 	
 	public void addOne(double p){
 		number += 1;
@@ -28,9 +36,7 @@ public class MonthlySale implements java.io.Serializable{
 		number += 1;
 	}
 	
-	public String getItem(){
-		return Item;
-	}
+
 	
 	public void printData(){
 		System.out.println("Number of " + Item + " : " + number + " with total profit of " + profit);
