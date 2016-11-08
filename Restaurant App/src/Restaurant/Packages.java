@@ -1,8 +1,8 @@
 package Restaurant;
 
 public class Packages extends Items implements java.io.Serializable{
-	double newPrice;
-	Items[] Itemlist;
+	private double newPrice;
+	protected Items[] Itemlist;
 	
 	Packages(){
 		super();
@@ -16,6 +16,12 @@ public class Packages extends Items implements java.io.Serializable{
 		super(x,d, "Package", p);
 		newPrice = np;
 		Itemlist = new Items[11];
+	}
+	
+
+	
+	public double getPrice(){
+		return newPrice;
 	}
 	
 	public void setPackages(){
@@ -46,9 +52,7 @@ public class Packages extends Items implements java.io.Serializable{
 	}
 	
 	public void clearItem(){
-		Name = "NIL";
-		Description = "NIL";
-		Price = 0.0;
+		super.clearItem();
 		newPrice = 0.0;
 	}
 	
@@ -57,8 +61,8 @@ public class Packages extends Items implements java.io.Serializable{
 		System.out.println("New Price: " + newPrice);
 		System.out.println("Package contains:");
 		for (int i =0; i<10; i++){
-			if(Itemlist[i].Name.equals("NIL")== false){
-				System.out.println("  " + Itemlist[i].Name);;
+			if(Itemlist[i].getName().equals("NIL")== false){
+				System.out.println("  " + Itemlist[i].getName());;
 				System.out.println(" ");
 			}
 	}

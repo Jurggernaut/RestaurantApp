@@ -1,10 +1,10 @@
 package Restaurant;
 
 public class Items implements java.io.Serializable{
-	String Name;
-	String Description;
-	String Type;
-	double Price;
+	private String Name;
+	private String Description;
+	private String Type;
+	private double Price;
 	
 	Items(){
 		Name = "NIL";
@@ -30,6 +30,10 @@ public class Items implements java.io.Serializable{
 	
 	public String getName(){
 		return Name;
+	}
+	
+	public double getPrice(){
+		return Price;
 	}
 	
 	public void changeDescription(String d){

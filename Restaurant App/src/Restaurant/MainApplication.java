@@ -53,6 +53,7 @@ public class MainApplication {
 	loadItems(ItemMenu);
 	loadReservations(ReservationList);
 	loadPackages(PackageMenu);
+	createFile();
 	
 	System.out.println("Application online");
 	
@@ -121,7 +122,7 @@ public class MainApplication {
 				System.out.println("Enter Order ID");
 				id = sc.nextInt();
 				for(i=0;i<100;i++){
-					if(OrderList[i].ID == id)
+					if(OrderList[i].getID() == id)
 						break;
 				}
 				if(OrderList[i]== null){
@@ -130,7 +131,7 @@ public class MainApplication {
 				}
 				else
 				{	
-				System.out.println("You were served by " + OrderList[i].StaffinCharge);
+				System.out.println("You were served by " + OrderList[i].getStaff());
 				OrderList[i].PrintOrder();
 				System.out.println("Your Total is : " + OrderList[i].calculatePrice());
 				Order Inserted = OrderList[i];
@@ -155,7 +156,7 @@ public class MainApplication {
 		
 
 	}
-	
+	sc.close();
 	saveItems(ItemMenu);
 	saveReservations(ReservationList);
 	savePackages(PackageMenu);
@@ -441,7 +442,7 @@ public class MainApplication {
 		
 		System.out.println("Enter Table ID");
 		table = sc.nextInt();
-		if(Tables[table].occupied == true){
+		if(Tables[table].getOccupied() == true){
 			System.out.println("Table is Occupied, type 1 to free up table");
 			choice = sc.nextInt();
 			if(choice == 1){
@@ -476,7 +477,7 @@ public class MainApplication {
 					sc.nextLine();
 				  	id = sc.nextInt();
 				  	for (i=0; i<100; i++){
-						if(OrderList[i].ID == id){
+						if(OrderList[i].getID() == id){
 							System.out.println("There is already an order with that ID");
 							return;
 						}
@@ -488,7 +489,7 @@ public class MainApplication {
 				  	table = sc.nextInt();
 				  	for (i =0; i<100; i++)
 					{
-						if(OrderList[i].ID == 0){
+						if(OrderList[i].getID() == 0){
 							OrderList[i] = new Order(id, staff, table);
 							OrderList[i].setOrder();
 							System.out.println("Order added");
@@ -504,7 +505,7 @@ public class MainApplication {
 					sc.nextLine();
 					id = sc.nextInt();
 					for(i = 0; i<100; i++){
-						if(OrderList[i].ID == id)
+						if(OrderList[i].getID() == id)
 							break;
 					}
 					if (OrderList[i] == null){
@@ -519,7 +520,7 @@ public class MainApplication {
 					sc.nextLine();
 					id = sc.nextInt();
 					for(i = 0; i<100; i++){
-						if(OrderList[i].ID == id)
+						if(OrderList[i].getID() == id)
 							break;
 					}
 					if (OrderList[i] == null){
@@ -534,7 +535,7 @@ public class MainApplication {
 					sc.nextLine();
 					id = sc.nextInt();
 					for(i = 0; i<100; i++){
-						if(OrderList[i].ID == id)
+						if(OrderList[i].getID() == id)
 							break;
 					}
 					if (OrderList[i] == null){
@@ -561,7 +562,7 @@ public class MainApplication {
 		Items item;
 		Packages pack;
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Processing order " + order.ID);
+		System.out.println("Processing order " + order.getID());
 		while (choice != 6){
 			System.out.println("Please make a choice of what you wish to do to the Order");
 			System.out.println("1) Add Items in Order");
@@ -668,7 +669,7 @@ public class MainApplication {
 				sc.nextLine();
 				id = sc.nextInt();
 				for (i=0; i<500; i++){
-					if(ReservationList[i].ID == id){
+					if(ReservationList[i].getID() == id){
 						System.out.println("There is already an order with that ID");
 						return;
 					}
@@ -688,7 +689,7 @@ public class MainApplication {
 			    Res = new GregorianCalendar(y,m,d,h,mm);
 			    for (i =0; i<500; i++)
 				{
-					if(ReservationList[i].ID == 0){
+					if(ReservationList[i].getID() == 0){
 						ReservationList[i] = new Reservation(id, tid, Res);
 						System.out.println("Reservation added");
 
@@ -705,7 +706,7 @@ public class MainApplication {
 				sc.nextLine();
 				id = sc.nextInt();
 				for(i = 0; i<500; i++){
-					if(ReservationList[i].ID == id)
+					if(ReservationList[i].getID() == id)
 						break;
 				}
 				if (ReservationList[i] == null){
@@ -735,7 +736,7 @@ public class MainApplication {
 				sc.nextLine();
 				id = sc.nextInt();
 				for(i = 0; i<500; i++){
-					if(ReservationList[i].ID == id)
+					if(ReservationList[i].getID() == id)
 						break;
 				}
 				if (ReservationList[i] == null){
@@ -751,7 +752,7 @@ public class MainApplication {
 				sc.nextLine();
 				id = sc.nextInt();
 				for(i = 0; i<500; i++){
-					if(ReservationList[i].ID == id)
+					if(ReservationList[i].getID() == id)
 						break;
 				}
 				if (ReservationList[i] == null){
@@ -805,7 +806,7 @@ public class MainApplication {
 		}
 		for (i=0;i<30;i++){
 			for(j=0;j<500;j++){
-				if (Tables[i].ID == Reservations[j].tableID && Tables[i].getOccupied() == false
+				if (Tables[i].getID() == Reservations[j].getTableID() && Tables[i].getOccupied() == false
 						&& Reservations[j].checkTable() == true){
 					Tables[i].isOccupied();
 				}
@@ -961,14 +962,12 @@ public class MainApplication {
 		day = now.get(Calendar.DAY_OF_MONTH);
 		month = now.get(Calendar.MONTH) + 1;
 		year = now.get(Calendar.YEAR);
+		
+		createFile();
+		
 		try {
-	      File folder = new File("" +year);
 	     
-	      
-	      File folder2 = new File("" + year + "/" + month);
-	      
-	      File file = new File(""+ year + "/" + month + "/" + day);
-	    
+			File file = new File("" + year + "/" + month + "/" + day);
 	      
           FileInputStream fis = new FileInputStream(file);
           ObjectInputStream ois = new ObjectInputStream(fis);
@@ -995,15 +994,15 @@ public class MainApplication {
 				continue;
 			for(j =0; j<200; j++){
 				if(List[j].getItem().equals(item.getName())){
-					List[j].addOne(item.Price);
+					List[j].addOne(item.getPrice());
 					break;
 				}
-				else if(List[j].Item.equals("NIL")){
+				else if(List[j].getItem().equals("NIL")){
 					break;
 				}
 			}
 			if(List[j] !=null && List[j].getItem().equals("NIL")){
-				List[j] = new MonthlySale(item.getName(),1,item.Price);
+				List[j] = new MonthlySale(item.getName(),1,item.getPrice());
 			}
 		}
 		
@@ -1015,7 +1014,7 @@ public class MainApplication {
 				continue;
 			
 			//first add each item without adding profit
-			if(!pack.Name.equals("NIL")){
+			if(!pack.getName().equals("NIL")){
 				for(j=0;j<10;j++){
 					item = pack.Itemlist[j];
 					if(item.getName().equals("NIL"))
@@ -1025,7 +1024,7 @@ public class MainApplication {
 							List[k].addOnePack();
 							break;
 						}
-						else if(List[k].Item.equals("NIL")){
+						else if(List[k].getItem().equals("NIL")){
 							break;
 						}
 					}
@@ -1041,16 +1040,16 @@ public class MainApplication {
 				
 				for(j=0;j<200;j++){
 					if(List[j].getItem().equals(pack.getName())){
-						List[j].addOne(pack.Price);
+						List[j].addOne(pack.getPrice());
 						break;
 					}
-					else if(List[j].Item.equals("NIL")){
+					else if(List[j].getItem().equals("NIL")){
 						break;
 					}
 					
 				}
 				if(List[j] != null && List[j].getItem().equals("NIL")){
-					List[j] = new MonthlySale(pack.getName(),1,pack.Price);
+					List[j] = new MonthlySale(pack.getName(),1,pack.getPrice());
 				}
 			}
 		
@@ -1058,24 +1057,7 @@ public class MainApplication {
          // put back in the new file, recreating it as the updated file
 	     try{
 	    	 
-		  File folder = new File("" +year);
-		      
-		  if(!folder.exists()){
-	      		folder.mkdir();
-		      }
-		  
-		  File folder2 = new File("" + year + "/" + month);
-		  
-		  if(!folder2.exists()){
-	      		folder2.mkdir();
-		      }
-				  
-		      
-		  File file = new File("" + year + "/" + month + "/" + day);
-		      
-		  if(!file.exists()){
-		    	  file.createNewFile();
-		      }
+	    	 File file = new File("" + year + "/" + month + "/" + day);
 
 		  FileOutputStream fos = new FileOutputStream(file);
 	      ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -1157,13 +1139,44 @@ public class MainApplication {
 			{
 				List[i].printData();
 			}
-			totalProfit += List[i].profit;
+			totalProfit += List[i].getProfit();
 		
 		
 		}
 		System.out.println("Total profit for Year " + year + " and Month " + month + " = " + totalProfit);
 		
 		}
+	
+	public static void createFile(){
+		try{
+			Calendar now = Calendar.getInstance();
+			int month, year, day;
+
+			day = now.get(Calendar.DAY_OF_MONTH);
+			month = now.get(Calendar.MONTH) + 1;
+			year = now.get(Calendar.YEAR);
+			File folder = new File("" +year);
+	      
+			if(!folder.exists()){
+				folder.mkdir();
+			}
+		  
+			File folder2 = new File("" + year + "/" + month);
+		  
+			if(!folder2.exists()){
+				folder2.mkdir();
+			}
+				  
+		      
+			File file = new File("" + year + "/" + month + "/" + day);
+		      
+			if(!file.exists()){
+				file.createNewFile();
+			}
+		}catch(IOException e){
+				System.out.println("Creating Files");
+			}
+	}
 	
 
 

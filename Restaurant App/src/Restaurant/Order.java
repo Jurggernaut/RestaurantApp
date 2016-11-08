@@ -1,11 +1,11 @@
 package Restaurant;
 
 public class Order {
-	int ID;
-	int tableID;
-	Items[] Itemlist;
-	Packages[] Packagelist;
-	String StaffinCharge;
+	private int ID;
+	private int tableID;
+	protected Items[] Itemlist;
+	protected Packages[] Packagelist;
+	private String StaffinCharge;
 
 	
 	Order(){
@@ -24,6 +24,14 @@ public class Order {
 		Itemlist = new Items[10];
 		Packagelist = new Packages[5];
 		StaffinCharge = s;
+	}
+	
+	public int getID(){
+		return ID;
+	}
+	
+	public String getStaff(){
+		return StaffinCharge;
 	}
 	
 	public void setOrder(){
@@ -91,14 +99,14 @@ public class Order {
 		int i;
 		for (i=0; i<10; i++){
 			if(Itemlist[i].getName().equals("NIL") == false){
-				System.out.println(Itemlist[i].Name + "   " + Itemlist[i].Price);
+				System.out.println(Itemlist[i].getName() + "   " + Itemlist[i].getPrice());
 				
 			}
 		}
 		
 		for (i=0; i<5; i++){
 			if(Packagelist[i].getName().equals("NIL") == false){
-				System.out.println(Packagelist[i].Name + "   " + Packagelist[i].newPrice);
+				System.out.println(Packagelist[i].getName() + "   " + Packagelist[i].getPrice());
 				
 			}
 			
@@ -115,14 +123,14 @@ public class Order {
 		double total = 0;
 		for (i=0; i<10; i++){
 			if(Itemlist[i].getName().equals("NIL") == false){
-				total += Itemlist[i].Price;
+				total += Itemlist[i].getPrice();
 
 			}
 		}
 		
 		for (i=0; i<5; i++){
 			if(Packagelist[i].getName().equals("NIL") == false){
-				total += Packagelist[i].newPrice;
+				total += Packagelist[i].getPrice();
 
 			}
 		}

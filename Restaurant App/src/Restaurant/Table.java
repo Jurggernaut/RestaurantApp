@@ -1,14 +1,18 @@
 package Restaurant;
 
 public class Table {
-	int ID;
-	boolean occupied;
-	int seatingCapacity;
+	private int ID;
+	private boolean occupied;
+	private int seatingCapacity;
 	
 	Table(int id, int c){
 		ID = id;
 		occupied = false;
 		seatingCapacity = c;
+	}
+	
+	public int getID(){
+		return ID;
 	}
 	
 	public boolean getOccupied(){
