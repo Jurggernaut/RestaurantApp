@@ -3,6 +3,7 @@ package Restaurant;
 
 import java.util.*;
 import java.io.*;
+import java.text.SimpleDateFormat;
 
 public class MainApplication {
 	public static void main(String[] args){
@@ -111,6 +112,7 @@ public class MainApplication {
 				break;
 				
 			case(7):
+				OccupiedCheck(Tables, ReservationList);
 				TableMethod(Tables);
 				break;
 			
@@ -130,10 +132,22 @@ public class MainApplication {
 					break;
 				}
 				else
-				{	
+				{
+				
+				System.out.println(" ");
+				System.out.println("Restaurant Name");
+				Calendar now = Calendar.getInstance();
+				Date printout = now.getTime();
+				SimpleDateFormat format1 = new SimpleDateFormat("y-M-d 'at' h:m");
+				String date1 = format1.format(printout); 
+			    System.out.println("" + date1);
 				System.out.println("You were served by " + OrderList[i].getStaff());
 				OrderList[i].PrintOrder();
-				System.out.println("Your Total is : " + OrderList[i].calculatePrice());
+				double subTotal = OrderList[i].calculatePrice();
+				System.out.println("Your sub total is : " + subTotal);
+				System.out.println("Your taxes is : " + subTotal * 0.07);
+				System.out.println("Your Total is : " + subTotal * 1.07);
+				System.out.println(" ");
 				Order Inserted = OrderList[i];
 				saveOrderHistory(Inserted);
 				OrderList[i].removeOrder();
@@ -978,8 +992,7 @@ public class MainApplication {
           ois.close();
 
       	 }catch (IOException e) {
-             System.out.println("File not created yet, will be done soon");
-             System.out.println(e.getMessage());
+             System.out.println("First input, creation of file will be done automatically");
          } catch (ClassNotFoundException e) {
              System.out.println(e);
              System.out.println(e.getMessage());
@@ -1109,9 +1122,6 @@ public class MainApplication {
 		
 		for (int j = firstDay; j <= secondDay; j++){
 		try {
-		      File folder = new File("" +year);
-		     
-		      File folder2 = new File("" + year + "/" + month);
 		      
 		      File file = new File("" + year + "/" + month + "/" + j);
 		    
